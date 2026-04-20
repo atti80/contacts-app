@@ -41,6 +41,10 @@ h3 {
   @apply font-lexend font-normal text-base leading-6 tracking-[1%];
 }
 
+.message {
+  @apply text-xs leading-3 tracking-[1%] text-text-muted;
+}
+
 .vertical-main-grid {
   @apply h-screen grid grid-rows-[var(--main-row-height)_var(--main-row-height)_1fr];
 }
