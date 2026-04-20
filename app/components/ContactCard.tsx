@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Contact } from "@/types/contact";
 import MuteIcon from "./icons/MuteIcon";
 import CallIcon from "./icons/CallIcon";
 import MoreIcon from "./icons/MoreIcon";
 import Image from "next/image";
+import ContactMenu from "./ContactMenu";
 
 interface Props {
   contact: Contact;
@@ -13,6 +14,19 @@ interface Props {
 
 export default function ContactCard({ contact }: Props) {
   const [hovered, setHovered] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <div
@@ -20,6 +34,7 @@ export default function ContactCard({ contact }: Props) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => {
         setHovered(false);
+        setMenuOpen(false);
       }}
     >
       {/* Avatar */}
@@ -50,15 +65,21 @@ export default function ContactCard({ contact }: Props) {
       {/* Actions - visible on hover */}
       {hovered && (
         <div className="ml-auto flex">
-          <button className="w-10 h-10 flex items-center justify-center">
+          <button className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-grey-80">
             <MuteIcon />
           </button>
-          <button className="w-10 h-10 flex items-center justify-center">
+          <button className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-grey-80">
             <CallIcon />
           </button>
-          <button className="w-10 h-10 flex items-center justify-center">
-            <MoreIcon />
-          </button>
+          <div ref={menuRef} className="relative">
+            <button
+              className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-grey-80"
+              onClick={() => setMenuOpen((prev) => !prev)}
+            >
+              <MoreIcon />
+            </button>
+            {menuOpen && <ContactMenu closeMenu={() => setMenuOpen(false)} />}
+          </div>
         </div>
       )}
     </div>

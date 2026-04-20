@@ -1,0 +1,20 @@
+export default function MenuButton({
+  icon,
+  title,
+  onClick,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      onMouseDown={() => console.log("MouseDown works!")}
+      className="w-54 h-11 p-3 flex items-center justify-start gap-2 hover:bg-grey-70 text-text-secondary rounded z-50"
+    >
+      {icon}
+      <span className="text-white">{title}</span>
+    </button>
+  );
+}

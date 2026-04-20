@@ -31,7 +31,9 @@ export default function Home() {
         <h1>Contacts</h1>
         <div className="flex gap-6 items-center">
           <div className="flex gap-2 items-center">
-            <SettingsIcon />
+            <div className="w-10 h-10 flex justify-center items-center">
+              <SettingsIcon />
+            </div>
             <ProfilePic />
           </div>
           <AddNewButton />
