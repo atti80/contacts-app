@@ -3,10 +3,8 @@ import { Contact } from "@/types/contact";
 
 export async function GET() {
   try {
-    const contacts = db
-      .prepare("SELECT * FROM contacts ORDER BY name ASC")
-      .all() as Contact[];
-    return Response.json(contacts);
+    const result = await db.execute("SELECT * FROM contacts ORDER BY name ASC");
+    return Response.json(result.rows);
   } catch {
     return Response.json(
       { error: "Failed to fetch contacts" },
@@ -27,20 +25,12 @@ export async function POST(request: Request) {
       return Response.json({ error: "Invalid email format" }, { status: 400 });
     }
 
-    const result = db
-      .prepare(
-        "INSERT INTO contacts (name, phone, email, avatar_url) VALUES (?, ?, ?, ?)"
-      )
-      .run(name.trim(), phone, email, avatar_url);
-
+    const result = await db.execute({
+      sql: "INSERT INTO contacts (name, phone, email, avatar_url) VALUES (?, ?, ?, ?)",
+      args: [name, phone, email, avatar_url],
+    });
     return Response.json(
-      {
-        id: result.lastInsertRowid,
-        name,
-        phone,
-        email,
-        avatar_url,
-      },
+      { id: Number(result.lastInsertRowid), name, phone, email, avatar_url },
       { status: 201 }
     );
   } catch {

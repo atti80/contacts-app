@@ -7,10 +7,13 @@ export async function PUT(
 ) {
   try {
     const { id } = await params;
-    const existing = db
-      .prepare("SELECT * FROM contacts WHERE id = ?")
-      .get(id) as Contact | undefined;
 
+    const result = await db.execute({
+      sql: "SELECT * FROM contacts WHERE id = ?",
+      args: [id],
+    });
+
+    const existing = result.rows[0] as Contact | undefined;
     if (!existing) {
       return Response.json({ error: "Contact not found" }, { status: 404 });
     }
@@ -25,9 +28,10 @@ export async function PUT(
       return Response.json({ error: "Invalid email format" }, { status: 400 });
     }
 
-    db.prepare(
-      "UPDATE contacts SET name = ?, phone = ?, email = ?, avatar_url = ? WHERE id = ?"
-    ).run(name.trim(), phone, email, avatar_url, id);
+    await db.execute({
+      sql: "UPDATE contacts SET name = ?, phone = ?, email = ?, avatar_url = ? WHERE id = ?",
+      args: [name, phone, email, avatar_url, id],
+    });
 
     return Response.json({ id, name, phone, email, avatar_url });
   } catch {
@@ -44,15 +48,22 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
-    const existing = db
-      .prepare("SELECT * FROM contacts WHERE id = ?")
-      .get(id) as Contact | undefined;
 
+    const result = await db.execute({
+      sql: "SELECT * FROM contacts WHERE id = ?",
+      args: [id],
+    });
+
+    const existing = result.rows[0] as Contact | undefined;
     if (!existing) {
       return Response.json({ error: "Contact not found" }, { status: 404 });
     }
 
-    db.prepare("DELETE FROM contacts WHERE id = ?").run(id);
+    await db.execute({
+      sql: "DELETE FROM contacts WHERE id = ?",
+      args: [id],
+    });
+
     return Response.json({ success: true });
   } catch {
     return Response.json(

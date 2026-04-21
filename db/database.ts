@@ -1,11 +1,11 @@
-import Database from "better-sqlite3";
-import path from "path";
-import { fileURLToPath } from "url";
+import { createClient } from "@libsql/client";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const db = new Database(path.join(__dirname, "contacts.db"));
+const db = createClient({
+  url: process.env.TURSO_DATABASE_URL!,
+  authToken: process.env.TURSO_AUTH_TOKEN!,
+});
 
-db.exec(`
+await db.execute(`
   CREATE TABLE IF NOT EXISTS contacts (
     id          INTEGER PRIMARY KEY AUTOINCREMENT,
     name        TEXT NOT NULL,
