@@ -11,10 +11,10 @@ export default function MenuButton({
     <button
       onClick={onClick}
       onMouseDown={() => console.log("MouseDown works!")}
-      className="w-54 h-11 p-3 flex items-center justify-start gap-2 hover:bg-grey-70 text-text-secondary rounded z-50"
+      className="w-54 h-11 p-3 flex items-center justify-start gap-2 hover:bg-grey-70 text-secondary rounded z-50"
     >
       {icon}
-      <span className="text-white">{title}</span>
+      <span className="text-primary">{title}</span>
     </button>
   );
 }

@@ -20,8 +20,8 @@ export default function ContactList({ contacts, onEdit, onDelete }: Props) {
         <ContactCard
           key={contact.id}
           contact={contact}
-          onEdit={onEdit}
-          onDelete={onDelete}
+          onEdit={() => onEdit(contact)}
+          onDelete={() => onDelete(contact.id)}
         />
       ))}
     </div>

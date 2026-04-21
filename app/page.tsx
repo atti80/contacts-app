@@ -6,16 +6,50 @@ import ContactList from "./components/ContactList";
 import { Contact } from "@/types/contact";
 import AddNewButton from "./components/AddNewButton";
 import ProfilePic from "./components/ProfilePic";
+import ContactModal from "./components/ContactModal";
 
 export default function Home() {
   const [contacts, setContacts] = useState<Contact[]>([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [editingContact, setEditingContact] = useState<Contact | null>(null);
 
-  function handleEdit(contact: Contact) {
-    console.log("edit", contact);
+  function handleAdd() {
+    setEditingContact(null);
+    setModalOpen(true);
   }
 
-  function handleDelete(id: number) {
-    console.log("edit", id);
+  function handleEdit(contact: Contact) {
+    setEditingContact(contact);
+    setModalOpen(true);
+  }
+
+  async function handleDelete(id: number) {
+    const res = await fetch(`/api/contacts/${id}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      //setError(data.error || "Something went wrong");
+      return;
+    }
+    setContacts((prev) => prev.filter((c) => c.id !== id));
+  }
+
+  function handleClose() {
+    setModalOpen(false);
+    setEditingContact(null);
+  }
+
+  function handleSave(contact: Contact) {
+    setContacts((prev) => {
+      const exists = prev.some((c) => c.id == contact.id);
+      if (exists) {
+        return prev.map((c) => (c.id == contact.id ? contact : c));
+      } else {
+        return [...prev, contact];
+      }
+    });
   }
 
   useEffect(() => {
@@ -36,7 +70,7 @@ export default function Home() {
             </div>
             <ProfilePic />
           </div>
-          <AddNewButton />
+          <AddNewButton onClick={handleAdd} />
         </div>
       </header>
       <ContactList
@@ -44,6 +78,13 @@ export default function Home() {
         onEdit={handleEdit}
         onDelete={handleDelete}
       />
+      {modalOpen && (
+        <ContactModal
+          contact={editingContact}
+          onClose={handleClose}
+          onSave={handleSave}
+        />
+      )}
     </div>
   );
 }

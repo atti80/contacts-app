@@ -10,9 +10,11 @@ import ContactMenu from "./ContactMenu";
 
 interface Props {
   contact: Contact;
+  onEdit: () => void;
+  onDelete: () => void;
 }
 
-export default function ContactCard({ contact }: Props) {
+export default function ContactCard({ contact, onEdit, onDelete }: Props) {
   const [hovered, setHovered] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -78,7 +80,13 @@ export default function ContactCard({ contact }: Props) {
             >
               <MoreIcon />
             </button>
-            {menuOpen && <ContactMenu closeMenu={() => setMenuOpen(false)} />}
+            {menuOpen && (
+              <ContactMenu
+                onEdit={onEdit}
+                onDelete={onDelete}
+                closeMenu={() => setMenuOpen(false)}
+              />
+            )}
           </div>
         </div>
       )}

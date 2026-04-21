@@ -27,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${glysa.variable} ${lexendDeca.variable}`}>
-      <body className="grid h-screen grid-cols-[1fr_512px_1fr] md:grid-cols-[1fr_640px_1fr] lg:grid-cols-[1fr_768px_1fr] bg-grey-100 text-white">
+      <body className="grid h-screen grid-cols-[1fr_512px_1fr] md:grid-cols-[1fr_640px_1fr] lg:grid-cols-[1fr_768px_1fr] bg-grey-100 text-primary">
         <LeftPanel />
         <main>{children}</main>
         <RightPanel />

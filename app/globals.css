@@ -18,15 +18,15 @@
   --color-grey-10: #414141;
 
   /* Text */
-  --color-text-primary: rgba(255, 255, 255, 1);
-  --color-text-secondary: rgba(255, 255, 255, 0.56);
-  --color-text-muted: rgba(255, 255, 255, 0.32);
+  --color-primary: rgba(255, 255, 255, 1);
+  --color-secondary: rgba(255, 255, 255, 0.56);
+  --color-muted: rgba(255, 255, 255, 0.32);
 
   --main-row-height: 96px;
 }
 
 body {
-  @apply bg-grey-100 text-white font-lexend text-sm leading-5 tracking-[1%] m-0 p-0;
+  @apply bg-grey-100 text-primary font-lexend text-sm leading-5 tracking-[1%] m-0 p-0;
 }
 
 h1 {
@@ -41,8 +41,16 @@ h3 {
   @apply font-lexend font-normal text-base leading-6 tracking-[1%];
 }
 
+label {
+  @apply text-xs leading-3 tracking-[1%] text-secondary;
+}
+
+input {
+  @apply rounded-lg px-3 py-2 h-10 text-primary placeholder:text-muted text-sm outline-1 outline-grey-30 bg-grey-80;
+}
+
 .message {
-  @apply text-xs leading-3 tracking-[1%] text-text-muted;
+  @apply text-xs leading-3 tracking-[1%] text-muted;
 }
 
 .vertical-main-grid {
