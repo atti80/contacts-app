@@ -13,7 +13,7 @@ export async function PUT(
       args: [id],
     });
 
-    const existing = result.rows[0] as Contact | undefined;
+    const existing = result.rows[0] as unknown as Contact | undefined;
     if (!existing) {
       return Response.json({ error: "Contact not found" }, { status: 404 });
     }
@@ -54,7 +54,7 @@ export async function DELETE(
       args: [id],
     });
 
-    const existing = result.rows[0] as Contact | undefined;
+    const existing = result.rows[0] as unknown as Contact | undefined;
     if (!existing) {
       return Response.json({ error: "Contact not found" }, { status: 404 });
     }
