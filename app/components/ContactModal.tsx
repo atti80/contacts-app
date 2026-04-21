@@ -5,6 +5,8 @@ import Image from "next/image";
 import { Contact } from "@/types/contact";
 import ChangeIcon from "./icons/ChangeIcon";
 import AddIcon from "./icons/AddIcon";
+import { uploadToS3 } from "@/lib/uploadImage";
+import DeleteIcon from "./icons/DeleteIcon";
 
 interface Props {
   contact: Contact | null;
@@ -25,7 +27,17 @@ export default function ContactModal({ contact, onClose, onSave }: Props) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  async function handleAvatarChange(file: File) {}
+  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      const url = await uploadToS3(file);
+      setAvatarUrl(url);
+    } catch (error) {
+      setError("Failed to upload image");
+    }
+  }
 
   async function handleSubmit() {
     if (!name.trim()) {
@@ -99,41 +111,40 @@ export default function ContactModal({ contact, onClose, onSave }: Props) {
               )}
             </div>
 
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) handleAvatarChange(file);
-              }}
-            />
-            <button
-              className="bg-grey-50 flex items-center gap-2 px-3 py-2 rounded-lg text-primary text-sm cursor-pointer transition-colors"
-              onClick={() => fileInputRef.current?.click()}
-            >
-              {avatarUrl ? (
-                <>
-                  <ChangeIcon />
-                  <span>Change picture</span>{" "}
-                </>
-              ) : (
-                <>
-                  <AddIcon /> <span>Add picture</span>{" "}
-                </>
-              )}
-            </button>
-
-            {isEditing && avatarUrl && (
+            <div className="flex gap-2 items-center flex-1">
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleFileChange}
+              />
               <button
-                className="px-3 py-2.5 rounded-xl text-primary cursor-pointer transition-colors"
-                style={{ background: "var(--color-grey-40)" }}
-                onClick={() => setAvatarUrl("")}
+                className={`bg-grey-50 flex flex-1 items-center gap-2 px-2 py-2 rounded-lg text-primary text-sm font-light cursor-pointer transition-colors tracking-normal ${avatarUrl ? "max-w-42" : "max-w-35"}`}
+                onClick={() => fileInputRef.current?.click()}
               >
-                🗑
+                {avatarUrl ? (
+                  <>
+                    <ChangeIcon />
+                    <span>Change picture</span>{" "}
+                  </>
+                ) : (
+                  <>
+                    <AddIcon /> <span>Add picture</span>{" "}
+                  </>
+                )}
               </button>
-            )}
+
+              {avatarUrl && (
+                <button
+                  className="w-10 h-10 flex items-center justify-center rounded-lg text-primary cursor-pointer transition-colors"
+                  style={{ background: "var(--color-grey-40)" }}
+                  onClick={() => setAvatarUrl("")}
+                >
+                  <DeleteIcon />
+                </button>
+              )}
+            </div>
           </div>
 
           {/* Fields */}

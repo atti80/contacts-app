@@ -10,7 +10,6 @@ export default function MenuButton({
   return (
     <button
       onClick={onClick}
-      onMouseDown={() => console.log("MouseDown works!")}
       className="w-54 h-11 p-3 flex items-center justify-start gap-2 hover:bg-grey-70 text-secondary rounded z-50"
     >
       {icon}
