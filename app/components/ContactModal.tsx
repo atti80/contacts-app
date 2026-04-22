@@ -19,7 +19,6 @@ export default function ContactModal({ contact, onClose, onSave }: Props) {
   const isEditing = contact !== null;
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [profilePic, setProfilePic] = useState(null);
 
   const [name, setName] = useState(contact?.name ?? "");
   const [phone, setPhone] = useState(contact?.phone ?? "");
@@ -98,22 +97,13 @@ export default function ContactModal({ contact, onClose, onSave }: Props) {
           {/* Avatar row */}
           <div className="flex items-center gap-4">
             <div className="w-22 h-22 rounded-full overflow-hidden shrink-0">
-              {avatarUrl ? (
-                <Image
-                  src={avatarUrl}
-                  alt="avatar"
-                  width={88}
-                  height={88}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <Image
-                  src="/images/profilepic.png"
-                  alt="avatar"
-                  width={88}
-                  height={88}
-                />
-              )}
+              <Image
+                src={avatarUrl || "/images/profilepic.png"}
+                alt="avatar"
+                width={88}
+                height={88}
+                className="w-full h-full object-cover"
+              />
             </div>
 
             <div className="flex gap-2 items-center flex-1">

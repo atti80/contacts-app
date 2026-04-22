@@ -7,7 +7,6 @@ import CallIcon from "./icons/CallIcon";
 import MoreIcon from "./icons/MoreIcon";
 import Image from "next/image";
 import ContactMenu from "./ContactMenu";
-import { motion } from "framer-motion";
 
 interface Props {
   contact: Contact;
@@ -41,23 +40,13 @@ export default function ContactCard({ contact, onEdit, onDelete }: Props) {
       }}
     >
       {/* Avatar */}
-      {contact.avatar_url ? (
-        <Image
-          className="rounded-full border border-grey-60"
-          src={contact.avatar_url}
-          alt={contact.name}
-          width={40}
-          height={40}
-        />
-      ) : (
-        <Image
-          className="rounded-full border border-grey-60"
-          src={"/images/profilepic.png"}
-          alt={contact.name}
-          width={40}
-          height={40}
-        />
-      )}
+      <Image
+        className="rounded-full border border-grey-60"
+        src={contact.avatar_url || "/images/profilepic.png"}
+        alt={contact.name}
+        width={40}
+        height={40}
+      />
 
       {/* Info */}
       <div>
