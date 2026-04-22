@@ -7,6 +7,7 @@ import ChangeIcon from "./icons/ChangeIcon";
 import AddIcon from "./icons/AddIcon";
 import { uploadToS3 } from "@/lib/uploadImage";
 import DeleteIcon from "./icons/DeleteIcon";
+import { motion } from "framer-motion";
 
 interface Props {
   contact: Contact | null;
@@ -79,7 +80,11 @@ export default function ContactModal({ contact, onClose, onSave }: Props) {
   }
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
       className="fixed inset-0 bg-black/60 flex items-center justify-center z-50"
       onClick={handleBackdropClick}
     >
@@ -202,6 +207,6 @@ export default function ContactModal({ contact, onClose, onSave }: Props) {
           </button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

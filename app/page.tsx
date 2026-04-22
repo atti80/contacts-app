@@ -1,12 +1,15 @@
 "use client";
 
 import SettingsIcon from "./components/icons/SettingsIcon";
+import BackArrowIcon from './components/icons/BackArrowIcon';
+import LightModeIcon from './components/icons/LightModeIcon';
 import { useState, useEffect } from "react";
 import ContactList from "./components/ContactList";
 import { Contact } from "@/types/contact";
 import AddNewButton from "./components/AddNewButton";
 import ProfilePic from "./components/ProfilePic";
 import ContactModal from "./components/ContactModal";
+import { AnimatePresence } from 'framer-motion';
 
 export default function Home() {
   const [contacts, setContacts] = useState<Contact[]>([]);
@@ -60,11 +63,16 @@ export default function Home() {
 
   return (
     <div className="vertical-main-grid">
-      <div className="border-b border-grey-80"></div>
-      <header className="border-b border-grey-80 flex justify-between items-center px-6">
+      <div className="border-b border-grey-80 p-2 flex items-center">
+        <div className='flex justify-between items-center w-full sm:hidden'>
+          <BackArrowIcon />
+          <LightModeIcon />
+        </div>
+      </div>
+      <header className="border-b border-grey-80 flex justify-between items-center px-2 sm:px-6">
         <h1>Contacts</h1>
-        <div className="flex gap-6 items-center">
-          <div className="flex gap-2 items-center">
+        <div className="flex gap-1 sm:gap-6 items-center">
+          <div className="flex gap-1 sm:gap-2 items-center">
             <div className="w-10 h-10 flex justify-center items-center">
               <SettingsIcon />
             </div>
@@ -78,13 +86,15 @@ export default function Home() {
         onEdit={handleEdit}
         onDelete={handleDelete}
       />
-      {modalOpen && (
-        <ContactModal
-          contact={editingContact}
-          onClose={handleClose}
-          onSave={handleSave}
-        />
-      )}
+      <AnimatePresence>
+        {modalOpen && (
+          <ContactModal
+            contact={editingContact}
+            onClose={handleClose}
+            onSave={handleSave}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

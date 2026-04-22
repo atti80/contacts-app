@@ -1,11 +1,10 @@
 @import "tailwindcss";
 
-@theme {
-  /* Fonts */
-  --font-lexend: var(--font-lexend-deca);
-  --font-glysa: var(--font-glysa);
+:root {
+  --color-primary: rgba(255, 255, 255, 1);
+  --color-secondary: rgba(255, 255, 255, 0.56);
+  --color-muted: rgba(255, 255, 255, 0.32);
 
-  /* Colours */
   --color-grey-100: #141414;
   --color-grey-90: #191919;
   --color-grey-80: #1e1e1e;
@@ -16,11 +15,29 @@
   --color-grey-30: #373737;
   --color-grey-20: #3c3c3c;
   --color-grey-10: #414141;
+}
+
+@theme {
+  /* Fonts */
+  --font-lexend: var(--font-lexend-deca);
+  --font-glysa: var(--font-glysa);
+
+  /* Colours */
+  --color-grey-100: var(--color-grey-100);
+  --color-grey-90: var(--color-grey-90);
+  --color-grey-80: var(--color-grey-80);
+  --color-grey-70: var(--color-grey-70);
+  --color-grey-60: var(--color-grey-60);
+  --color-grey-50: var(--color-grey-50);
+  --color-grey-40: var(--color-grey-40);
+  --color-grey-30: var(--color-grey-30);
+  --color-grey-20: var(--color-grey-20);
+  --color-grey-10: var(--color-grey-10);
 
   /* Text */
-  --color-primary: rgba(255, 255, 255, 1);
-  --color-secondary: rgba(255, 255, 255, 0.56);
-  --color-muted: rgba(255, 255, 255, 0.32);
+  --color-primary: var(--color-primary);
+  --color-secondary: var(--color-secondary);
+  --color-muted: var(--color-muted);
 
   --main-row-height: 96px;
 }
