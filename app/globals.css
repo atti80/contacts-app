@@ -47,7 +47,7 @@ body {
 }
 
 h1 {
-  @apply font-glysa font-medium text-[32px] leading-12 tracking-normal;
+  @apply font-glysa font-medium text-2xl/12 sm:text-[32px]/12 leading-12 tracking-normal;
 }
 
 h2 {
