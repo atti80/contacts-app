@@ -1,20 +1,23 @@
 "use client";
 
 import SettingsIcon from "./components/icons/SettingsIcon";
-import BackArrowIcon from './components/icons/BackArrowIcon';
-import LightModeIcon from './components/icons/LightModeIcon';
+import BackArrowIcon from "./components/icons/BackArrowIcon";
+import LightModeIcon from "./components/icons/LightModeIcon";
 import { useState, useEffect } from "react";
 import ContactList from "./components/ContactList";
 import { Contact } from "@/types/contact";
 import AddNewButton from "./components/AddNewButton";
 import ProfilePic from "./components/ProfilePic";
 import ContactModal from "./components/ContactModal";
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from "framer-motion";
+import ConfirmModal from "./components/ConfirmModal";
 
 export default function Home() {
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [editingContact, setEditingContact] = useState<Contact | null>(null);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [deletingId, setDeletingId] = useState<number | null>(null);
 
   function handleAdd() {
     setEditingContact(null);
@@ -26,14 +29,24 @@ export default function Home() {
     setModalOpen(true);
   }
 
-  async function handleDelete(id: number) {
+  function handleDelete(id: number) {
+    setDeletingId(id);
+    setConfirmOpen(true);
+  }
+
+  async function handleDeleteConfirm() {
+    if (deletingId === null) return;
+
+    const id = deletingId;
+    setConfirmOpen(false);
+    setDeletingId(null);
+
     const res = await fetch(`/api/contacts/${id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
     });
     const data = await res.json();
     if (!res.ok) {
-      //setError(data.error || "Something went wrong");
       return;
     }
     setContacts((prev) => prev.filter((c) => c.id !== id));
@@ -64,7 +77,7 @@ export default function Home() {
   return (
     <div className="vertical-main-grid">
       <div className="border-b border-grey-80 p-2 flex items-center">
-        <div className='flex justify-between items-center w-full sm:hidden'>
+        <div className="flex justify-between items-center w-full sm:hidden">
           <BackArrowIcon />
           <LightModeIcon />
         </div>
@@ -92,6 +105,18 @@ export default function Home() {
             contact={editingContact}
             onClose={handleClose}
             onSave={handleSave}
+          />
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {confirmOpen && (
+          <ConfirmModal
+            title="Delete contact"
+            message="Are you sure you want to delete this contact?"
+            onConfirm={handleDeleteConfirm}
+            onCancel={() => {
+              setConfirmOpen(false);
+            }}
           />
         )}
       </AnimatePresence>

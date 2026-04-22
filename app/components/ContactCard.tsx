@@ -7,7 +7,7 @@ import CallIcon from "./icons/CallIcon";
 import MoreIcon from "./icons/MoreIcon";
 import Image from "next/image";
 import ContactMenu from "./ContactMenu";
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from "framer-motion";
 
 interface Props {
   contact: Contact;
@@ -33,7 +33,7 @@ export default function ContactCard({ contact, onEdit, onDelete }: Props) {
 
   return (
     <motion.div
-      whileHover={{ scale: 1.01, backgroundColor: "var(--color-grey-90)" }}
+      whileHover={{ scale: 1.01 }}
       transition={{ duration: 0.2 }}
       className="h-16 py-3 flex items-center gap-4"
       onMouseEnter={() => setHovered(true)}
@@ -75,7 +75,8 @@ export default function ContactCard({ contact, onEdit, onDelete }: Props) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="ml-auto flex">
+            className="ml-auto flex"
+          >
             <button className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-grey-80">
               <MuteIcon />
             </button>

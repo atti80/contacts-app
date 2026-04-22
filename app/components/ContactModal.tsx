@@ -125,7 +125,7 @@ export default function ContactModal({ contact, onClose, onSave }: Props) {
                 onChange={handleFileChange}
               />
               <button
-                className={`bg-grey-50 flex flex-1 items-center gap-2 px-2 py-2 rounded-lg text-primary text-sm font-light cursor-pointer transition-colors tracking-normal ${avatarUrl ? "max-w-42" : "max-w-35"}`}
+                className={`bg-grey-60 hover:bg-grey-50 flex flex-1 items-center gap-2 px-2 py-2 rounded-lg text-primary text-sm font-light cursor-pointer transition-colors tracking-normal ${avatarUrl ? "max-w-42" : "max-w-35"}`}
                 onClick={() => fileInputRef.current?.click()}
               >
                 {avatarUrl ? (
@@ -142,8 +142,7 @@ export default function ContactModal({ contact, onClose, onSave }: Props) {
 
               {avatarUrl && (
                 <button
-                  className="w-10 h-10 flex items-center justify-center rounded-lg text-primary cursor-pointer transition-colors"
-                  style={{ background: "var(--color-grey-40)" }}
+                  className="bg-grey-40 w-10 h-10 flex items-center justify-center rounded-lg text-primary cursor-pointer transition-colors"
                   onClick={() => setAvatarUrl("")}
                 >
                   <DeleteIcon />
@@ -191,15 +190,13 @@ export default function ContactModal({ contact, onClose, onSave }: Props) {
         {/* Footer */}
         <div className="flex p-6 justify-end gap-3">
           <button
-            className="px-4 py-2.5 rounded-xl text-sm cursor-pointer transition-colors bg-transparent border-none"
-            style={{ color: "var(--text-secondary)" }}
+            className="px-4 py-2 text-primary rounded-lg text-sm cursor-pointer transition-colors bg-transparent border-none"
             onClick={onClose}
           >
             Cancel
           </button>
           <button
-            className="px-6 py-2.5 rounded-xl text-primary text-sm cursor-pointer transition-colors disabled:opacity-50"
-            style={{ background: "var(--color-grey-40)" }}
+            className="px-6 py-2 bg-grey-60 hover:bg-grey-50 rounded-lg text-primary text-sm cursor-pointer transition-colors disabled:opacity-50"
             onClick={handleSubmit}
             disabled={loading}
           >
