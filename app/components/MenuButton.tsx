@@ -10,7 +10,7 @@ export default function MenuButton({
   return (
     <button
       onClick={onClick}
-      className="w-54 h-11 p-3 flex items-center justify-start gap-2 hover:bg-grey-70 text-secondary rounded z-50 cursor-pointer"
+      className="w-full h-11 p-3 flex items-center justify-start gap-2 hover:bg-grey-70 text-secondary rounded z-50 cursor-pointer"
     >
       {icon}
       <span className="text-primary">{title}</span>

@@ -3,7 +3,7 @@ import { Contact } from "@/types/contact";
 
 export async function GET() {
   try {
-    const result = await db.execute("SELECT * FROM contacts ORDER BY name ASC");
+    const result = await db.execute("SELECT * FROM contacts ORDER BY id ASC");
     return Response.json(result.rows);
   } catch {
     return Response.json(

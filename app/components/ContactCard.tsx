@@ -7,7 +7,7 @@ import CallIcon from "./icons/CallIcon";
 import MoreIcon from "./icons/MoreIcon";
 import Image from "next/image";
 import ContactMenu from "./ContactMenu";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 interface Props {
   contact: Contact;
@@ -32,10 +32,8 @@ export default function ContactCard({ contact, onEdit, onDelete }: Props) {
   }, []);
 
   return (
-    <motion.div
-      whileHover={{ scale: 1.01 }}
-      transition={{ duration: 0.2 }}
-      className="h-16 py-3 flex items-center gap-4"
+    <div
+      className={`h-16 py-3 flex items-center gap-4 bg-grey-100 ${menuOpen ? "z-50" : "z-0"}`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => {
         setHovered(false);
@@ -68,40 +66,30 @@ export default function ContactCard({ contact, onEdit, onDelete }: Props) {
       </div>
 
       {/* Actions - visible on hover */}
-      <AnimatePresence>
-        {hovered && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="ml-auto flex"
+      <div className={`ml-auto flex ${hovered ? "sm:flex" : "sm:hidden"}`}>
+        <button className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-grey-80">
+          <MuteIcon />
+        </button>
+        <button className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-grey-80">
+          <CallIcon />
+        </button>
+        <div ref={menuRef} className="relative">
+          <button
+            className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-grey-80"
+            onClick={() => setMenuOpen((prev) => !prev)}
           >
-            <button className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-grey-80">
-              <MuteIcon />
-            </button>
-            <button className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-grey-80">
-              <CallIcon />
-            </button>
-            <div ref={menuRef} className="relative">
-              <button
-                className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-grey-80"
-                onClick={() => setMenuOpen((prev) => !prev)}
-              >
-                <MoreIcon />
-              </button>
+            <MoreIcon />
+          </button>
 
-              {menuOpen && (
-                <ContactMenu
-                  onEdit={onEdit}
-                  onDelete={onDelete}
-                  closeMenu={() => setMenuOpen(false)}
-                />
-              )}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
+          {menuOpen && (
+            <ContactMenu
+              onEdit={onEdit}
+              onDelete={onDelete}
+              closeMenu={() => setMenuOpen(false)}
+            />
+          )}
+        </div>
+      </div>
+    </div>
   );
 }

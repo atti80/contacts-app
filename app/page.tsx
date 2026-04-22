@@ -18,6 +18,7 @@ export default function Home() {
   const [editingContact, setEditingContact] = useState<Contact | null>(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [contactsLoading, setContactsLoading] = useState(true);
 
   function handleAdd() {
     setEditingContact(null);
@@ -71,7 +72,10 @@ export default function Home() {
   useEffect(() => {
     fetch("/api/contacts")
       .then((res) => res.json())
-      .then(setContacts);
+      .then((data) => {
+        setContacts(data);
+        setContactsLoading(false);
+      });
   }, []);
 
   return (
@@ -94,11 +98,17 @@ export default function Home() {
           <AddNewButton onClick={handleAdd} />
         </div>
       </header>
-      <ContactList
-        contacts={contacts}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-      />
+      {contacts.length === 0 ? (
+        <div className="mt-4 flex justify-center text-secondary">
+          {contactsLoading ? "Loading contacts..." : "No contacts yet."}
+        </div>
+      ) : (
+        <ContactList
+          contacts={contacts}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+        />
+      )}
       <AnimatePresence>
         {modalOpen && (
           <ContactModal

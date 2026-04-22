@@ -10,10 +10,6 @@ interface Props {
 }
 
 export default function ContactList({ contacts, onEdit, onDelete }: Props) {
-  if (contacts.length === 0) {
-    return <p>No contacts yet.</p>;
-  }
-
   return (
     <div className="px-6 pt-3">
       {contacts.map((contact) => (
